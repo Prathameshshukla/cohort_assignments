@@ -3,20 +3,23 @@ import { Sun, Moon, ChevronDown } from "lucide-react";
 import { Button } from "../components/ui/button";
 import SignUpModal from "./SignUpModal";
 
-export default function Navbar({ darkMode, setDarkMode }: { darkMode: boolean; setDarkMode: (val: boolean) => void }) {
-  const [showSignUp, setShowSignUp] = useState(false);
+interface NavbarProps {
+  darkMode: boolean;
+  setDarkMode: (val: boolean) => void;
+  onLoginClick: () => void;
+  onSignUpClick: () => void;
+}
+
+export default function Navbar({ darkMode, setDarkMode, onLoginClick, onSignUpClick }: NavbarProps) {
   const [showFeaturesDropdown, setShowFeaturesDropdown] = useState(false);
 
   return (
     <>
       <header className="fixed top-0 left-0 w-full flex items-center px-6 py-3 shadow-md bg-white dark:bg-gray-900 z-50">
-        {/* Logo */}
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">BLOCKWORK</h1>
 
-        {/* Navigation Links */}
         <nav className="flex-1 ml-10">
           <ul className="flex space-x-6 relative">
-            {/* Features Dropdown */}
             <li 
               className="relative cursor-pointer"
               onMouseEnter={() => setShowFeaturesDropdown(true)}
@@ -40,12 +43,13 @@ export default function Navbar({ darkMode, setDarkMode }: { darkMode: boolean; s
           </ul>
         </nav>
 
-        {/* Right Section - Buttons */}
         <div className="flex items-center space-x-4">
-          <button className="text-gray-700 dark:text-gray-200 font-medium hover:underline">Log In</button>
+          <button className="text-gray-700 dark:text-gray-200 font-medium hover:underline" onClick={onLoginClick}>
+            Log In
+          </button>
           
           <button 
-            onClick={() => setShowSignUp(true)} 
+            onClick={onSignUpClick} 
             className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
           >
             Sign up
@@ -56,9 +60,6 @@ export default function Navbar({ darkMode, setDarkMode }: { darkMode: boolean; s
           </Button>
         </div>
       </header>
-
-      {/* Sign Up Modal */}
-      {showSignUp && <SignUpModal isOpen={showSignUp} onClose={() => setShowSignUp(false)} />}
     </>
   );
 }
