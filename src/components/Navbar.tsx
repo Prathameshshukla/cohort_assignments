@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, ChevronDown } from "lucide-react";
 import { Button } from "../components/ui/button";
 import SignUpModal from "./SignUpModal";
 
 export default function Navbar({ darkMode, setDarkMode }: { darkMode: boolean; setDarkMode: (val: boolean) => void }) {
   const [showSignUp, setShowSignUp] = useState(false);
+  const [showFeaturesDropdown, setShowFeaturesDropdown] = useState(false);
 
   return (
     <>
@@ -12,16 +13,34 @@ export default function Navbar({ darkMode, setDarkMode }: { darkMode: boolean; s
         {/* Logo */}
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">BLOCKWORK</h1>
 
-        {/* Navigation Links - Positioned to the Left */}
+        {/* Navigation Links */}
         <nav className="flex-1 ml-10">
-          <ul className="flex space-x-6">
-            <li><a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">About</a></li>
-            <li><a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">Features</a></li>
+          <ul className="flex space-x-6 relative">
+            {/* Features Dropdown */}
+            <li 
+              className="relative cursor-pointer"
+              onMouseEnter={() => setShowFeaturesDropdown(true)}
+              onMouseLeave={() => setShowFeaturesDropdown(false)}
+            >
+              <div className="flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
+                Features <ChevronDown size={16} className="ml-1" />
+              </div>
+              
+              {showFeaturesDropdown && (
+                <ul className="absolute left-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md">
+                  <li><a href="#post-job" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Post Job</a></li>
+                  <li><a href="#browse-jobs" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Browse Jobs</a></li>
+                  <li><a href="#browse-freelancers" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Browse Freelancers</a></li>
+                </ul>
+              )}
+            </li>
+
             <li><a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">Contact</a></li>
+            <li><a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">About</a></li>
           </ul>
         </nav>
 
-        {/* Buttons - Positioned to the Right */}
+        {/* Right Section - Buttons */}
         <div className="flex items-center space-x-4">
           <button className="text-gray-700 dark:text-gray-200 font-medium hover:underline">Log In</button>
           
@@ -39,7 +58,7 @@ export default function Navbar({ darkMode, setDarkMode }: { darkMode: boolean; s
       </header>
 
       {/* Sign Up Modal */}
-      <SignUpModal isOpen={showSignUp} onClose={() => setShowSignUp(false)} />
+      {showSignUp && <SignUpModal isOpen={showSignUp} onClose={() => setShowSignUp(false)} />}
     </>
   );
 }

@@ -1,48 +1,52 @@
-import React, { useState } from "react";
-import Modal from "./Modal"; // Import custom modal
-import { Button } from "./ui/button";
-import { Briefcase, Laptop } from "lucide-react";
+import React, { useEffect } from "react";
 
 export default function SignUpModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [onClose]);
+
+  if (!isOpen) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 className="text-xl font-semibold text-center">Join as a client or freelancer</h2>
-
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        <div
-          className={`p-4 border rounded-lg cursor-pointer flex flex-col items-center ${
-            selectedRole === "client" ? "border-blue-600 bg-blue-50" : "border-gray-300"
-          }`}
-          onClick={() => setSelectedRole("client")}
-        >
-          <Briefcase size={24} />
-          <p className="text-center mt-2">I’m a client, hiring for a project</p>
-        </div>
-
-        <div
-          className={`p-4 border rounded-lg cursor-pointer flex flex-col items-center ${
-            selectedRole === "freelancer" ? "border-blue-600 bg-blue-50" : "border-gray-300"
-          }`}
-          onClick={() => setSelectedRole("freelancer")}
-        >
-          <Laptop size={24} />
-          <p className="text-center mt-2">I’m a freelancer, looking for work</p>
-        </div>
-      </div>
-
-      <Button
-        className="w-full mt-6 bg-blue-600 text-white rounded-lg"
-        disabled={!selectedRole}
-        onClick={() => alert(`Signed up as: ${selectedRole}`)}
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+      onClick={onClose} // Close modal when clicking outside
+    >
+      {/* Modal Content */}
+      <div
+        className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-[450px] sm:w-[500px]"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
       >
-        Create Account
-      </Button>
+        <h2 className="text-2xl font-semibold text-center">Join as a Client or Freelancer</h2>
 
-      <p className="text-center text-sm mt-4">
-        Already have an account? <a href="/login" className="text-blue-600 font-semibold">Log In</a>
-      </p>
-    </Modal>
+        {/* Sign-Up Options */}
+        <div className="flex gap-6 justify-center mt-6">
+          <div className="border rounded-lg p-6 flex flex-col items-center w-1/2 cursor-pointer hover:shadow-md">
+            <span className="text-xl">👤</span>
+            <p className="mt-2 text-center">I’m a client, hiring for a project</p>
+          </div>
+          <div className="border rounded-lg p-6 flex flex-col items-center w-1/2 cursor-pointer hover:shadow-md">
+            <span className="text-xl">💼</span>
+            <p className="mt-2 text-center">I’m a freelancer, looking for work</p>
+          </div>
+        </div>
+
+        {/* Create Account Button */}
+        <button className="mt-6 w-full bg-gray-400 text-white py-2 rounded-lg cursor-not-allowed">
+          Create Account
+        </button>
+
+        {/* Login Link */}
+        <p className="text-center mt-4 text-gray-600">
+          Already have an account? <span className="text-green-600 cursor-pointer">Log In</span>
+        </p>
+      </div>
+    </div>
   );
 }
