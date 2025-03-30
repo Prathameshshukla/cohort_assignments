@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
+import WhyUs from "../components/WhyUs";
 
 // Import CategoryBlocks
 
@@ -56,6 +57,7 @@ export default function HomePage() {
                 <CategoryBlocks />
             </section>
 
+            <WhyUs />
             <Footer />
         </div>
     );
