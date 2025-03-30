@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Sun, Moon, ChevronDown } from "lucide-react";
 import { Button } from "../components/ui/button";
 import SignUpModal from "./SignUpModal";
+import wolfIcon from "../assets/wolf_favicon.ico"; // Import the wolf icon
 
 interface NavbarProps {
   darkMode: boolean;
@@ -16,7 +17,11 @@ export default function Navbar({ darkMode, setDarkMode, onLoginClick, onSignUpCl
   return (
     <>
       <header className="fixed top-0 left-0 w-full flex items-center px-6 py-3 shadow-md bg-white dark:bg-gray-900 z-50">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">BLOCKWORK</h1>
+        {/* Logo + Project Name */}
+        <div className="flex items-center space-x-2">
+          <img src={wolfIcon} alt="Wolf Icon" className="w-8 h-8" /> {/* Icon added here */}
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">BLOCKWORK</h1>
+        </div>
 
         <nav className="flex-1 ml-10">
           <ul className="flex space-x-6 relative">

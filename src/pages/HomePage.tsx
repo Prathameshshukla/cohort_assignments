@@ -32,17 +32,25 @@ export default function HomePage({ onLoginClick, onSignUpClick }: HomePageProps)
 
             <section id="features" className="py-16 px-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                 {[
-                    { title: "AI Arbitration", desc: "Unbiased dispute resolution using AI." },
-                    { title: "Blockchain Payments", desc: "Secure escrow-based transactions." },
-                    { title: "Fair Pricing", desc: "AI-driven payment structure for freelancers." }
+                    { 
+                        title: "AI Arbitration", 
+                        desc: "Our AI-driven arbitration system ensures unbiased, fast, and accurate dispute resolution. It analyzes work completion, client requirements, and communication history to make fair judgments." 
+                    },
+                    { 
+                        title: "Blockchain Payments", 
+                        desc: "All transactions are processed securely using blockchain-based escrow payments. Funds are held safely until predefined milestones are met, ensuring trust for both clients and freelancers." 
+                    },
+                    { 
+                        title: "Fair Pricing", 
+                        desc: "Our AI-driven pricing model calculates freelancer rates based on experience, skill level, and project complexity. This ensures transparent and fair compensation, reducing price exploitation." 
+                    }
                 ].map((feature, index) => (
                     <div key={index} className="p-6 shadow-lg rounded-lg bg-gray-200 dark:bg-gray-700">
                         <h3 className="text-xl font-semibold">{feature.title}</h3>
-                        <p>{feature.desc}</p>
+                        <p className="mt-2">{feature.desc}</p>
                     </div>
                 ))}
             </section>
-
             <section id="categories" className="py-12 px-6">
                 <CategoryBlocks />
             </section>
