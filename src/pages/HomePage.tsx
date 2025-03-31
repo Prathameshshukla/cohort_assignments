@@ -1,64 +1,54 @@
-import { useState } from "react";
 import CategoryBlocks from "../components/CategoryBlocks";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
 import { Button } from "../components/ui/button";
 import WhyUs from "../components/WhyUs";
-import backgroundImage from "../assets/backgroundImage2.jpg"; // Ensure the correct path
+import backgroundImage from "../assets/backgroundImage2.jpg"; // Ensure correct path
 
 interface HomePageProps {
     onLoginClick: () => void;
     onSignUpClick: () => void;
+    darkMode: boolean;  // Pass dark mode from App.tsx
 }
 
-export default function HomePage({ onLoginClick, onSignUpClick }: HomePageProps) {
-    const [darkMode, setDarkMode] = useState(false);
-
+export default function HomePage({ onLoginClick, onSignUpClick, darkMode }: HomePageProps) {
     return (
         <div className={`min-h-screen flex flex-col ${darkMode ? "dark bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
-            <Navbar 
-                darkMode={darkMode} 
-                setDarkMode={setDarkMode} 
-                onLoginClick={onLoginClick} 
-                onSignUpClick={onSignUpClick} 
-            />
-
+            
             {/* Hero Section */}
             <header 
-    className="relative flex flex-col justify-center items-center text-center min-h-screen px-6 bg-cover bg-center"
-    style={{ backgroundImage: `url(${backgroundImage})` }}
->
-    {/* Background Overlay */}
-    <div className={`absolute inset-0 ${darkMode ? "bg-black bg-opacity-70" : "bg-black bg-opacity-50"}`}></div>  
+                className="relative flex flex-col justify-center items-center text-center min-h-screen px-6 bg-cover bg-center"
+                style={{ backgroundImage: `url(${backgroundImage})` }}
+            >
+                {/* Background Overlay */}
+                <div className={`absolute inset-0 ${darkMode ? "bg-black bg-opacity-70" : "bg-black bg-opacity-50"}`}></div>  
 
-    {/* Header Text - Keep at z-10 */}
-    <div className="relative z-10">
-        <h2 className="text-4xl font-bold text-white">AI & Blockchain-Powered Freelancing</h2>
-        <p className="text-lg mt-4 text-gray-300">Secure, Transparent, and Fair Marketplace</p>
-        <Button 
-            className="mt-6 px-6 py-2 text-lg bg-blue-600 text-white rounded-xl" 
-            onClick={onSignUpClick}
-        >
-            Get Started
-        </Button>
-    </div>
-</header>
-
+                {/* Header Text */}
+                <div className="relative z-10">
+                    <h2 className="text-4xl font-bold text-white">AI & Blockchain-Powered Freelancing</h2>
+                    <p className="text-lg mt-4 text-gray-300">Secure, Transparent, and Fair Marketplace</p>
+                    <Button 
+                        className="mt-6 px-6 py-2 text-lg bg-blue-600 text-white rounded-xl" 
+                        onClick={onSignUpClick}
+                    >
+                        Get Started
+                    </Button>
+                </div>
+            </header>
 
             {/* Features Section */}
             <section id="features" className="py-16 px-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                 {[
                     { 
                         title: "AI Arbitration", 
-                        desc: "Our AI-driven arbitration system ensures unbiased, fast, and accurate dispute resolution. It analyzes work completion, client requirements, and communication history to make fair judgments." 
+                        desc: "Our AI-driven arbitration system ensures unbiased, fast, and accurate dispute resolution." 
                     },
                     { 
                         title: "Blockchain Payments", 
-                        desc: "All transactions are processed securely using blockchain-based escrow payments. Funds are held safely until predefined milestones are met, ensuring trust for both clients and freelancers." 
+                        desc: "Secure blockchain-based escrow payments protect both clients and freelancers." 
                     },
                     { 
                         title: "Fair Pricing", 
-                        desc: "Our AI-driven pricing model calculates freelancer rates based on experience, skill level, and project complexity. This ensures transparent and fair compensation, reducing price exploitation." 
+                        desc: "AI-driven pricing ensures transparent, fair compensation based on experience and skill." 
                     }
                 ].map((feature, index) => (
                     <div key={index} className="p-6 shadow-lg rounded-lg bg-gray-200 dark:bg-gray-700">
