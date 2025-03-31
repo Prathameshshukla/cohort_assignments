@@ -1,40 +1,94 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import DashboardNavbar from "./components/DashboardNavbar";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
+import ClientDashboard from "./pages/ClientDashboard";
+import FreelancerDashboard from "./pages/FreelancerDashboard";
 import LoginModal from "./components/LoginModal";
 import SignUpModal from "./components/SignUpModal";
+
+const DashboardLayout: React.FC<{ 
+  children: React.ReactNode;
+  userRole: "client" | "freelancer";
+  darkMode: boolean;
+  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  onLogout: () => void;
+}> = ({ children, userRole, darkMode, setDarkMode, onLogout }) => {
+  return (
+    <>
+      <DashboardNavbar userRole={userRole} darkMode={darkMode} setDarkMode={setDarkMode} onLogout={onLogout} />
+      <div className="dashboard-content">{children}</div>
+    </>
+  );
+};
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const [userRole, setUserRole] = useState<"client" | "freelancer" | null>(null);
 
-  const handleLoginClick = () => setIsLoginOpen(true);
-  const handleSignUpClick = () => setIsSignUpOpen(true);
-  const closeLogin = () => setIsLoginOpen(false);
-  const closeSignUp = () => setIsSignUpOpen(false);
+  const location = useLocation();
+  const isDashboard = location.pathname.includes("dashboard");
+
+  const handleLogout = () => {
+    setUserRole(null);
+  };
 
   return (
-    <Router>
-      <Navbar 
-        darkMode={darkMode} 
-        setDarkMode={setDarkMode} 
-        onLoginClick={handleLoginClick} 
-        onSignUpClick={handleSignUpClick} 
-      />
+    <>
+      {/* Show appropriate navbar */}
+      {isDashboard && userRole ? (
+        <DashboardNavbar userRole={userRole} darkMode={darkMode} setDarkMode={setDarkMode} onLogout={handleLogout} />
+      ) : (
+        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} onLoginClick={() => setIsLoginOpen(true)} onSignUpClick={() => setIsSignUpOpen(true)} />
+      )}
 
+      {/* App Routes */}
       <Routes>
-        <Route path="/" element={<HomePage darkMode={darkMode} onLoginClick={handleLoginClick} onSignUpClick={handleSignUpClick} />} />
+        <Route 
+          path="/" 
+          element={<HomePage darkMode={darkMode} onLoginClick={() => setIsLoginOpen(true)} onSignUpClick={() => setIsSignUpOpen(true)} />} 
+        />
         <Route path="/about" element={<AboutPage />} />
+        <Route 
+          path="/client-dashboard" 
+          element={userRole === "client" ? (
+            <DashboardLayout userRole={userRole} darkMode={darkMode} setDarkMode={setDarkMode} onLogout={handleLogout}>
+              <ClientDashboard />
+            </DashboardLayout>
+          ) : <Navigate to="/" />} 
+        />
+        <Route 
+          path="/freelancer-dashboard" 
+          element={userRole === "freelancer" ? (
+            <DashboardLayout userRole={userRole} darkMode={darkMode} setDarkMode={setDarkMode} onLogout={handleLogout}>
+              <FreelancerDashboard />
+            </DashboardLayout>
+          ) : <Navigate to="/" />} 
+        />
       </Routes>
 
-      {/* Pass `isOpen` prop to modals */}
-      <LoginModal isOpen={isLoginOpen} onClose={closeLogin} />
-      <SignUpModal isOpen={isSignUpOpen} onClose={closeSignUp} />
-    </Router>
+      {/* Modals with userRole update */}
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLogin={(role) => {
+        setUserRole(role);
+        setIsLoginOpen(false);
+      }} />
+      
+      <SignUpModal isOpen={isSignUpOpen} onClose={() => setIsSignUpOpen(false)} onSignUp={(role) => {
+        setUserRole(role);
+        setIsSignUpOpen(false);
+      }} />
+    </>
   );
 };
 
-export default App;
+export default function WrappedApp() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+}
