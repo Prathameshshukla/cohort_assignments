@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Button } from "../components/ui/button";
 import WhyUs from "../components/WhyUs";
+import backgroundImage from "../assets/backgroundImage2.jpg"; // Ensure the correct path
 
 interface HomePageProps {
     onLoginClick: () => void;
@@ -22,14 +23,29 @@ export default function HomePage({ onLoginClick, onSignUpClick }: HomePageProps)
                 onSignUpClick={onSignUpClick} 
             />
 
-            <header className="flex flex-col justify-center items-center text-center min-h-screen px-6">
-                <h2 className="text-4xl font-bold">AI & Blockchain-Powered Freelancing</h2>
-                <p className="text-lg mt-4">Secure, Transparent, and Fair Marketplace</p>
-                <Button className="mt-6 px-6 py-2 text-lg bg-blue-600 text-white rounded-xl" onClick={onSignUpClick}>
-                    Get Started
-                </Button>
-            </header>
+            {/* Hero Section */}
+            <header 
+    className="relative flex flex-col justify-center items-center text-center min-h-screen px-6 bg-cover bg-center"
+    style={{ backgroundImage: `url(${backgroundImage})` }}
+>
+    {/* Background Overlay */}
+    <div className={`absolute inset-0 ${darkMode ? "bg-black bg-opacity-70" : "bg-black bg-opacity-50"}`}></div>  
 
+    {/* Header Text - Keep at z-10 */}
+    <div className="relative z-10">
+        <h2 className="text-4xl font-bold text-white">AI & Blockchain-Powered Freelancing</h2>
+        <p className="text-lg mt-4 text-gray-300">Secure, Transparent, and Fair Marketplace</p>
+        <Button 
+            className="mt-6 px-6 py-2 text-lg bg-blue-600 text-white rounded-xl" 
+            onClick={onSignUpClick}
+        >
+            Get Started
+        </Button>
+    </div>
+</header>
+
+
+            {/* Features Section */}
             <section id="features" className="py-16 px-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                 {[
                     { 
@@ -51,6 +67,8 @@ export default function HomePage({ onLoginClick, onSignUpClick }: HomePageProps)
                     </div>
                 ))}
             </section>
+
+            {/* Categories Section */}
             <section id="categories" className="py-12 px-6">
                 <CategoryBlocks />
             </section>
