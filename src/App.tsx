@@ -3,23 +3,21 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
+import LoginModal from "./components/LoginModal";
+import SignUpModal from "./components/SignUpModal";
 
 const App: React.FC = () => {
-  // State for dark mode
   const [darkMode, setDarkMode] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
-  // Placeholder functions for login/signup
-  const handleLoginClick = () => {
-    console.log("Login Clicked");
-  };
-
-  const handleSignUpClick = () => {
-    console.log("Sign Up Clicked");
-  };
+  const handleLoginClick = () => setIsLoginOpen(true);
+  const handleSignUpClick = () => setIsSignUpOpen(true);
+  const closeLogin = () => setIsLoginOpen(false);
+  const closeSignUp = () => setIsSignUpOpen(false);
 
   return (
     <Router>
-      {/* Pass required props to Navbar */}
       <Navbar 
         darkMode={darkMode} 
         setDarkMode={setDarkMode} 
@@ -28,17 +26,13 @@ const App: React.FC = () => {
       />
 
       <Routes>
-        {/* Pass necessary props to HomePage */}
-        <Route path="/" element={
-          <HomePage 
-            onLoginClick={handleLoginClick} 
-            onSignUpClick={handleSignUpClick} 
-            darkMode={darkMode} 
-          />
-        } />
-
+        <Route path="/" element={<HomePage darkMode={darkMode} onLoginClick={handleLoginClick} onSignUpClick={handleSignUpClick} />} />
         <Route path="/about" element={<AboutPage />} />
       </Routes>
+
+      {/* Pass `isOpen` prop to modals */}
+      <LoginModal isOpen={isLoginOpen} onClose={closeLogin} />
+      <SignUpModal isOpen={isSignUpOpen} onClose={closeSignUp} />
     </Router>
   );
 };
