@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Sun, Moon, ChevronDown } from "lucide-react";
 import { Button } from "../components/ui/button";
-import SignUpModal from "./SignUpModal";
-import wolfIcon from "../assets/wolf_favicon.ico"; // Import the wolf icon
+import wolfIcon from "../assets/wolf_favicon.ico";
 
 interface NavbarProps {
   darkMode: boolean;
@@ -16,10 +15,10 @@ export default function Navbar({ darkMode, setDarkMode, onLoginClick, onSignUpCl
 
   return (
     <>
+      {/* Main Navbar */}
       <header className="fixed top-0 left-0 w-full flex items-center px-6 py-3 shadow-md bg-white dark:bg-gray-900 z-50">
-        {/* Logo + Project Name */}
         <div className="flex items-center space-x-2">
-          <img src={wolfIcon} alt="Wolf Icon" className="w-8 h-8" /> {/* Icon added here */}
+          <img src={wolfIcon} alt="Wolf Icon" className="w-8 h-8" />
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">BLOCKWORK</h1>
         </div>
 
@@ -33,7 +32,6 @@ export default function Navbar({ darkMode, setDarkMode, onLoginClick, onSignUpCl
               <div className="flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
                 Features <ChevronDown size={16} className="ml-1" />
               </div>
-              
               {showFeaturesDropdown && (
                 <ul className="absolute left-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md">
                   <li><a href="#post-job" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Post Job</a></li>
@@ -42,7 +40,6 @@ export default function Navbar({ darkMode, setDarkMode, onLoginClick, onSignUpCl
                 </ul>
               )}
             </li>
-
             <li><a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">Contact</a></li>
             <li><a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">About</a></li>
           </ul>
@@ -65,6 +62,20 @@ export default function Navbar({ darkMode, setDarkMode, onLoginClick, onSignUpCl
           </Button>
         </div>
       </header>
+
+      {/* Secondary Navbar */}
+      <div className="w-full mt-16 px-6 py-2 bg-gray-100 dark:bg-gray-800 shadow-md">
+        <div className="container mx-auto flex justify-between text-gray-700 dark:text-gray-300 text-sm font-medium">
+          <a href="#blockchain" className="hover:underline">Blockchain & Crypto</a>
+          <a href="#web-dev" className="hover:underline">Web, Mobile & Software Dev</a>
+          <a href="#design" className="hover:underline">Design & Creative</a>
+          <a href="#nft" className="hover:underline">NFT</a>
+          <a href="#sales" className="hover:underline">Sales & Marketing</a>
+          <a href="#writing" className="hover:underline">Writing & Translation</a>
+          <a href="#engineering" className="hover:underline">Engineering & Architecture</a>
+          <a href="#more" className="hover:underline">More</a>
+        </div>
+      </div>
     </>
   );
 }
