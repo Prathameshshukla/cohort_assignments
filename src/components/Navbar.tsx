@@ -22,8 +22,11 @@ export default function Navbar({ darkMode, setDarkMode, onLoginClick, onSignUpCl
         ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} z-50`}
       >
         <div className="flex items-center space-x-2">
-          <img src={wolfIcon} alt="Wolf Icon" className="w-8 h-8" />
-          <h1 className="text-2xl font-bold">BLOCKWORK</h1>
+          {/* Clickable BlockWork Name - Returns to Home Page */}
+          <Link to="/" className="flex items-center space-x-2">
+            <img src={wolfIcon} alt="Wolf Icon" className="w-8 h-8" />
+            <h1 className="text-2xl font-bold hover:opacity-80 transition">BLOCKWORK</h1>
+          </Link>
         </div>
 
         <nav className="flex-1 ml-10">
