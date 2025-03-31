@@ -21,7 +21,10 @@ export default function CategoryBlocks() {
         {categories.map((category, index) => (
           <div
             key={index}
-            className="flex flex-col items-center justify-center p-4 border rounded-lg shadow-sm hover:shadow-md bg-white dark:bg-gray-800 cursor-pointer transition"
+            className="flex flex-col items-center justify-center p-4 border rounded-lg shadow-sm 
+                       bg-white dark:bg-gray-800 cursor-pointer transition 
+                       hover:scale-105 hover:bg-blue-100 dark:hover:bg-blue-700 
+                       hover:border-blue-500 hover:text-blue-700 dark:hover:text-blue-300"
           >
             <div className="text-blue-600 dark:text-blue-400">{category.icon}</div>
             <p className="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">{category.name}</p>
