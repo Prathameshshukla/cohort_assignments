@@ -9,6 +9,9 @@ import ClientDashboard from "./pages/ClientDashboard";
 import FreelancerDashboard from "./pages/FreelancerDashboard";
 import LoginModal from "./components/LoginModal";
 import SignUpModal from "./components/SignUpModal";
+import Hire from "./components/ClientSide/Hire.jsx";
+import Manage from "./components/ClientSide/Manage";
+import Payments from "./components/ClientSide/Payment";
 
 const DashboardLayout: React.FC<{ 
   children: React.ReactNode;
@@ -61,6 +64,7 @@ const App: React.FC = () => {
           element={<HomePage darkMode={darkMode} onLoginClick={() => setIsLoginOpen(true)} onSignUpClick={() => setIsSignUpOpen(true)} />} 
         />
         <Route path="/about" element={<AboutPage />} />
+        
         <Route 
           path="/client-dashboard" 
           element={userRole === "client" ? (
@@ -74,6 +78,7 @@ const App: React.FC = () => {
             </DashboardLayout>
           ) : <Navigate to="/" />} 
         />
+        
         <Route 
           path="/freelancer-dashboard" 
           element={userRole === "freelancer" ? (
@@ -84,6 +89,49 @@ const App: React.FC = () => {
               onLogout={handleLogout}
             >
               <FreelancerDashboard />
+            </DashboardLayout>
+          ) : <Navigate to="/" />} 
+        />
+
+        {/* Additional Routes for Hire, Manage, Payments */}
+        <Route 
+          path="/hire" 
+          element={userRole ? (
+            <DashboardLayout 
+              userRole={userRole} 
+              darkMode={darkMode} 
+              setDarkMode={setDarkMode} 
+              onLogout={handleLogout}
+            >
+              <Hire />
+            </DashboardLayout>
+          ) : <Navigate to="/" />} 
+        />
+        
+        <Route 
+          path="/manage" 
+          element={userRole ? (
+            <DashboardLayout 
+              userRole={userRole} 
+              darkMode={darkMode} 
+              setDarkMode={setDarkMode} 
+              onLogout={handleLogout}
+            >
+              <Manage />
+            </DashboardLayout>
+          ) : <Navigate to="/" />} 
+        />
+        
+        <Route 
+          path="/payments" 
+          element={userRole ? (
+            <DashboardLayout 
+              userRole={userRole} 
+              darkMode={darkMode} 
+              setDarkMode={setDarkMode} 
+              onLogout={handleLogout}
+            >
+              <Payments />
             </DashboardLayout>
           ) : <Navigate to="/" />} 
         />
