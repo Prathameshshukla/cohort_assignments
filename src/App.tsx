@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import DashboardNavbar from "./components/DashboardNavbar";
+import ClientNavbar from "./components/ClientNavbar";
+import FreelancerNavbar from "./components/ui/FreelancerNavbar";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ClientDashboard from "./pages/ClientDashboard";
@@ -18,8 +19,12 @@ const DashboardLayout: React.FC<{
 }> = ({ children, userRole, darkMode, setDarkMode, onLogout }) => {
   return (
     <>
-      <DashboardNavbar userRole={userRole} darkMode={darkMode} setDarkMode={setDarkMode} onLogout={onLogout} />
-      <div className="dashboard-content">{children}</div>
+      {userRole === "client" ? (
+        <ClientNavbar darkMode={darkMode} setDarkMode={setDarkMode} onLogout={onLogout} />
+      ) : (
+        <FreelancerNavbar darkMode={darkMode} setDarkMode={setDarkMode} onLogout={onLogout} />
+      )}
+      <div className="dashboard-content mt-16">{children}</div>
     </>
   );
 };
@@ -39,11 +44,14 @@ const App: React.FC = () => {
 
   return (
     <>
-      {/* Show appropriate navbar */}
-      {isDashboard && userRole ? (
-        <DashboardNavbar userRole={userRole} darkMode={darkMode} setDarkMode={setDarkMode} onLogout={handleLogout} />
-      ) : (
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} onLoginClick={() => setIsLoginOpen(true)} onSignUpClick={() => setIsSignUpOpen(true)} />
+      {/* Show Navbar for non-dashboard routes */}
+      {!isDashboard && !userRole && (
+        <Navbar 
+          darkMode={darkMode} 
+          setDarkMode={setDarkMode} 
+          onLoginClick={() => setIsLoginOpen(true)} 
+          onSignUpClick={() => setIsSignUpOpen(true)} 
+        />
       )}
 
       {/* App Routes */}
@@ -56,7 +64,12 @@ const App: React.FC = () => {
         <Route 
           path="/client-dashboard" 
           element={userRole === "client" ? (
-            <DashboardLayout userRole={userRole} darkMode={darkMode} setDarkMode={setDarkMode} onLogout={handleLogout}>
+            <DashboardLayout 
+              userRole={userRole} 
+              darkMode={darkMode} 
+              setDarkMode={setDarkMode} 
+              onLogout={handleLogout}
+            >
               <ClientDashboard />
             </DashboardLayout>
           ) : <Navigate to="/" />} 
@@ -64,7 +77,12 @@ const App: React.FC = () => {
         <Route 
           path="/freelancer-dashboard" 
           element={userRole === "freelancer" ? (
-            <DashboardLayout userRole={userRole} darkMode={darkMode} setDarkMode={setDarkMode} onLogout={handleLogout}>
+            <DashboardLayout 
+              userRole={userRole} 
+              darkMode={darkMode} 
+              setDarkMode={setDarkMode} 
+              onLogout={handleLogout}
+            >
               <FreelancerDashboard />
             </DashboardLayout>
           ) : <Navigate to="/" />} 
@@ -72,15 +90,23 @@ const App: React.FC = () => {
       </Routes>
 
       {/* Modals with userRole update */}
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLogin={(role) => {
-        setUserRole(role);
-        setIsLoginOpen(false);
-      }} />
+      <LoginModal 
+        isOpen={isLoginOpen} 
+        onClose={() => setIsLoginOpen(false)} 
+        onLogin={(role) => {
+          setUserRole(role);
+          setIsLoginOpen(false);
+        }} 
+      />
       
-      <SignUpModal isOpen={isSignUpOpen} onClose={() => setIsSignUpOpen(false)} onSignUp={(role) => {
-        setUserRole(role);
-        setIsSignUpOpen(false);
-      }} />
+      <SignUpModal 
+        isOpen={isSignUpOpen} 
+        onClose={() => setIsSignUpOpen(false)} 
+        onSignUp={(role) => {
+          setUserRole(role);
+          setIsSignUpOpen(false);
+        }} 
+      />
     </>
   );
 };
